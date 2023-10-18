@@ -40,7 +40,7 @@ eulerProblem1 = error "Please implement eulerProblem1"
 
 -- * Task 2
 
-{-| An infinite list of the fibonacci numbers (starting with 0).
+{- | An infinite list of the fibonacci numbers (starting with 0).
 >>> take 10 fibs
 [0,1,1,2,3,5,8,13,21,34]
 -}
