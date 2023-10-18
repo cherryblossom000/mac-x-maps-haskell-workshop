@@ -37,6 +37,9 @@ tests:
     source-dirs: test
     ghc-options:
     - -Wno-unused-packages # QuickCheck for doctest
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
     dependencies:
     - QuickCheck
     - ansi-terminal
