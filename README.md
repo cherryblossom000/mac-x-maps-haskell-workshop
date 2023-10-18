@@ -11,7 +11,7 @@ For part 3, run `stack run` to try out the calculator.
 If you want more things to do, there are extra bonus tasks in `Bonus.hs`.
 Run `stack test --test-arguments bonus` to run the tests for these.
 
-Solutions will be available on the [solutions branch](https://github.com/cherryblossom000/mac-x-maps-haskell-workshop/tree/solutions) by the end of this week.
+Solutions are available on the [solutions branch](https://github.com/cherryblossom000/mac-x-maps-haskell-workshop/tree/solutions).
 
 ## Windows Issues
 
