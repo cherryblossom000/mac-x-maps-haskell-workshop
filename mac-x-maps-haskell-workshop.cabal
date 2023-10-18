@@ -53,7 +53,7 @@ test-suite test
       test
   default-extensions:
       ImportQualifiedPost
-  ghc-options: -Weverything -Wno-implicit-prelude -Wno-missing-deriving-strategies -Wno-missing-export-lists -Wno-missing-kind-signatures -Wno-missing-local-signatures -Wno-monomorphism-restriction -Wno-all-missed-specialisations -Wno-missed-specialisations -Wno-safe -Wno-unsafe -Wno-missing-safe-haskell-mode -Wno-unused-packages
+  ghc-options: -Weverything -Wno-implicit-prelude -Wno-missing-deriving-strategies -Wno-missing-export-lists -Wno-missing-kind-signatures -Wno-missing-local-signatures -Wno-monomorphism-restriction -Wno-all-missed-specialisations -Wno-missed-specialisations -Wno-safe -Wno-unsafe -Wno-missing-safe-haskell-mode -Wno-unused-packages -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
     , ansi-terminal
