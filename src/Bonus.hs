@@ -24,7 +24,8 @@ prop> myMap id xs == xs
 [2,3,4]
 -}
 myMap :: (a -> b) -> MyList a -> MyList b
-myMap = error "Please implement myMap"
+myMap _ Empty = Empty
+myMap f (Cons x xs) = Cons (f x) (myMap f xs)
 
 -- * Task 2
 
@@ -37,7 +38,10 @@ prop> myFilter (const False) xs == Empty
 []
 -}
 myFilter :: (a -> Bool) -> MyList a -> MyList a
-myFilter = error "Please implement myFilter"
+myFilter _ Empty = Empty
+myFilter p (Cons x xs)
+  | p x = Cons x (myFilter p xs)
+  | otherwise = myFilter p xs
 
 -- * Task 3
 
@@ -53,7 +57,10 @@ Nothing
 Just 8
 -}
 myFind :: (a -> Bool) -> MyList a -> Maybe a
-myFind = error "Please implement myFind"
+myFind _ Empty = Nothing
+myFind f (Cons x xs)
+  | f x = Just x
+  | otherwise = myFind f xs
 
 -- * Task 4
 
@@ -75,7 +82,8 @@ prop> myFoldr (:) [] xs == toList xs
 [1,2,3,4]
 -}
 myFoldr :: (a -> b -> b) -> b -> MyList a -> b
-myFoldr = error "Please implement myFoldr"
+myFoldr _ z Empty = z
+myFoldr f z (Cons x xs) = f x (myFoldr f z xs)
 
 {- | Applies a function to each element of a list (from left to right) and an accumulator value,
 starting with an initial accumulator value. The function returns a new accumulator value, and the
@@ -89,9 +97,11 @@ prop> myFoldl (flip (:)) [] xs == reverse (toList xs)
 [4,3,2,1]
 -}
 myFoldl :: (b -> a -> b) -> b -> MyList a -> b
-myFoldl = error "Please implement myFoldl"
+myFoldl _ z Empty = z
+myFoldl f z (Cons x xs) = myFoldl f (f z x) xs
 
 -- * Task 5
+
 -- Implement these using myFoldr.
 
 {- | Applies a function to each element of a list.
@@ -102,7 +112,7 @@ prop> myMap2 id xs == xs
 [2,3,4]
 -}
 myMap2 :: (a -> b) -> MyList a -> MyList b
-myMap2 = error "Please implement myMap2"
+myMap2 f = myFoldr (Cons . f) Empty
 
 {- | Returns a new list with only the elements satisfying a predicate.
 prop> myFilter2 (const True) xs == xs
@@ -113,7 +123,7 @@ prop> myFilter2 (const False) xs == Empty
 []
 -}
 myFilter2 :: (a -> Bool) -> MyList a -> MyList a
-myFilter2 = error "Please implement myFilter2"
+myFilter2 p = myFoldr (\x acc -> if p x then Cons x acc else acc) Empty
 
 {- | Finds the first element of a list satisfying a predicate.
 prop> myFind2 (const True) xs == case xs of { Empty -> Nothing; Cons x _ -> Just x }
@@ -127,4 +137,14 @@ Nothing
 Just 8
 -}
 myFind2 :: (a -> Bool) -> MyList a -> Maybe a
-myFind2 = error "Please implement myFind2"
+myFind2 p = myFoldr (\x acc -> if p x then Just x else acc) Nothing
+{- This one could be implemented more efficiently using foldl:
+myFind2 p = myFoldl f Nothing
+ where
+  f Nothing x
+    | p x       = Just x
+    | otherwise = Nothing
+  f acc _ = acc
+Of course, the real Haskell implementation exits once it has found an element matching the
+predicate.
+-}

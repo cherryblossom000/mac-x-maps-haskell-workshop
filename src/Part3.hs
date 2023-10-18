@@ -22,7 +22,8 @@ Just 3
 Nothing
 -}
 safeDiv :: Int -> Int -> Maybe Int
-safeDiv x y = error "Please implement safeDiv"
+safeDiv _ 0 = Nothing
+safeDiv x y = Just (x `div` y)
 
 -- * Task 2
 
@@ -44,7 +45,10 @@ Nothing
 Nothing
 -}
 findFirstEvenNumber :: [Int] -> Maybe Int
-findFirstEvenNumber xs = error "Please implement findFirstEvenNumber"
+findFirstEvenNumber xs = find even xs
+-- Because all functions in Haskell are curried, this could be simplified (the techincal term is
+-- eta-redued) to:
+-- findFirstEvenNumber = find even
 
 {-| Returns a string about the first even number in the list.
 >>> evenNumberMessage [1, 2, 3, 4]
@@ -55,7 +59,11 @@ findFirstEvenNumber xs = error "Please implement findFirstEvenNumber"
 "There are no even numbers"
 -}
 evenNumberMessage :: [Int] -> String
-evenNumberMessage xs = error "Please implement evenNumberMessage"
+evenNumberMessage xs = case findFirstEvenNumber xs of
+  Just x -> "The first even number is " <> show x
+  Nothing -> "There are no even numbers"
+-- If you're curious and want to extend yourself, there's a function called maybe:
+-- evenNumberMessage = maybe "There are no even numbers" (("The first even number is " <>) . show) . findFirstEvenNumber
 
 -- * Task 3
 
@@ -85,4 +93,10 @@ data Expression
 -6.75
 -}
 evaluateExpression :: Expression -> Double
-evaluateExpression expression = error "Please implement evaluateExpression"
+evaluateExpression (Number n) = n
+evaluateExpression (Negate e) = -evaluateExpression e
+evaluateExpression (Add a b) = evaluateExpression a + evaluateExpression b
+evaluateExpression (Subtract a b) = evaluateExpression a - evaluateExpression b
+evaluateExpression (Multiply a b) = evaluateExpression a * evaluateExpression b
+evaluateExpression (Divide a b) = evaluateExpression a / evaluateExpression b
+evaluateExpression (Power a b) = evaluateExpression a ** evaluateExpression b
